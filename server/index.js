@@ -15,11 +15,12 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
+    require: true,
   },
 });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8001;
 
 app.use(cors());
 app.use(express.json());
