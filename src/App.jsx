@@ -343,7 +343,9 @@ function App() {
     const fetchTermsContent = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8001/api/terms/${language}`);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+        console.log('Using API URL:', API_URL); // For debugging
+        const response = await fetch(`${API_URL}/api/terms/${language}`);
         if (!response.ok) throw new Error('Failed to fetch content');
         const data = await response.json();
         setTermsData(data);
