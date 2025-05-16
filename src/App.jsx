@@ -269,7 +269,8 @@ function App() {
 
   const backgroundStyle = {
     minHeight: "100vh",
-    width: "100%",
+    width: "100vw",
+    height: "100vh",
     backgroundImage: `url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg')`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -278,10 +279,11 @@ function App() {
     position: "fixed",
     top: 0,
     left: 0,
+    right: 0,
+    bottom: 0,
     margin: 0,
     padding: 0,
-    zIndex: -1,
-    overflowX: "hidden"
+    zIndex: -1
   };
 
   const pageWrapper = {
@@ -290,7 +292,8 @@ function App() {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "transparent"
   };
 
   const logoContainerStyle = {
