@@ -21,8 +21,16 @@ const pool = new Pool({
 
 const app = express();
 const port = process.env.PORT || 8001;
+const host = process.env.HOST || "0.0.0.0";
 
-app.use(cors());
+// Update CORS configuration
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Test and log database connection
@@ -61,8 +69,9 @@ const testDatabaseConnection = async () => {
 const startServer = async () => {
   await testDatabaseConnection();
 
-  app.listen(port, () => {
+  app.listen(port, "0.0.0.0", () => {
     console.log(`🚀 Server running on port ${port}`);
+    console.log(`📱 Access on local network: http://YOUR_IP_ADDRESS:${port}`);
   });
 };
 

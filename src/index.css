@@ -31,14 +31,35 @@ body {
   box-sizing: border-box;
   overscroll-behavior: none;
   overscroll-behavior-y: none;
-  background-color: transparent;
+  background-color: #000;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: transparent;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+/* Prevent iOS Safari elastic scrolling effects */
+html {
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 h1 {

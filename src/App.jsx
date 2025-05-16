@@ -114,18 +114,21 @@ const StyledContent = styled.div`
   margin: 0 auto 20px;
   padding: 3rem 4rem;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   overflow-wrap: break-word;
   word-break: break-word;
+  position: relative;
+  z-index: 2;
 
   @media (max-width: 1024px) {
-    width: 100%;
+    width: 95%;
     padding: 1.5rem;
-    margin: 0;
+    margin: 0 auto 20px;
   }
 
   @media (max-width: 480px) {
+    width: 100%;
     padding: 1rem;
     border-radius: 12px;
   }
@@ -268,21 +271,33 @@ function App() {
   };
 
   const backgroundStyle = {
-    minHeight: "100vh",
-    width: "100vw",
-    height: "100vh",
-    backgroundImage: `url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg')`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed",
     position: "fixed",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    margin: 0,
-    padding: 0,
+    width: "100%",
+    height: "100%",
+    backgroundImage: `url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundColor: "#000", // Fallback color
+    zIndex: -2,
+    transform: "translate3d(0, 0, 0)", // Force GPU acceleration
+    WebkitBackfaceVisibility: "hidden",
+    MozBackfaceVisibility: "hidden",
+    backfaceVisibility: "hidden"
+  };
+
+  // Add a dark overlay to improve text contrast
+  const overlayStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     zIndex: -1
   };
 
@@ -293,7 +308,8 @@ function App() {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "transparent"
+    isolation: "isolate", // Create new stacking context
+    zIndex: 1
   };
 
   const logoContainerStyle = {
@@ -346,8 +362,10 @@ function App() {
     const fetchTermsContent = async () => {
       try {
         setLoading(true);
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
-        console.log('Using API URL:', API_URL); // For debugging
+        // Frontend runs on 5173, backend on 8001
+        const API_URL = window.location.hostname === 'localhost'
+          ? 'http://localhost:8001'
+          : 'https://taskone-2.onrender.com';
         const response = await fetch(`${API_URL}/api/terms/${language}`);
         if (!response.ok) throw new Error('Failed to fetch content');
         const data = await response.json();
@@ -449,6 +467,7 @@ function App() {
   return (
     <>
       <div style={backgroundStyle} />
+      <div style={overlayStyle} />
       <div style={pageWrapper}>
         <NavbarContainer>
           <HamburgerButton onClick={() => setShowMobileMenu(!showMobileMenu)}>
